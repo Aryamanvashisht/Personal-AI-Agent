@@ -33,23 +33,13 @@ def takeVoiceInput():
     r = sr.Recognizer()
     #with sr.Recognizer(device_index = 1) as source:
 
-    with sr.Microphone(device_index=1) as source:
+    with sr.Microphone() as source:
         #r.adjust_for_ambient_noise(source)
-        r.adjust_for_ambient_noise(source)
+        #r.adjust_for_ambient_noise(source)
         print("Listening...")
         r.pause_threshold = 1
-        #r.energy_threshold = 4000
         audio = r.listen(source)
     try:
-        '''
-        with sr.Microphone() as source:
-           r.adjust_for_ambient_noise(source)
-           print('listening')
-           voice = r.listen(source)
-           info = r.recognize_google(voice)
-           #print(info) 
-           print("Recognizing...")
-           '''
         print("Recognizing...")
         query = r.recognize_google(audio, english = 'en-in')
         print(f"User said..{query}\n")
@@ -60,12 +50,11 @@ def takeVoiceInput():
     return query
 
 if __name__ == "__main__":
-    #speak("Aryaman is a good boy")
     wishMe()
     while True:
-
        query = takeVoiceInput().lower()
     #query = 'open vscode'
+    
 #Logic for executing tasks based on query:
     if 'wikipedia' in query:
         query = query.replace("wikipedia","")
