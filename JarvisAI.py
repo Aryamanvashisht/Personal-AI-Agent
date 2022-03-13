@@ -10,7 +10,7 @@ from time import strftime
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 #print(voices[0].id)
-engine.setProperty('voice',voices[0].id)
+engine.setProperty('voice',voices[1].id)
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
@@ -35,26 +35,25 @@ def takeVoiceInput():
 
     with sr.Microphone() as source:
         #r.adjust_for_ambient_noise(source)
-        #r.adjust_for_ambient_noise(source)
         print("Listening...")
         r.pause_threshold = 1
+        #r.energy_threshold = 4000
         audio = r.listen(source)
     try:
         print("Recognizing...")
-        query = r.recognize_google(audio, english = 'en-in')
+        query = r.recognize_google(audio)
         print(f"User said..{query}\n")
     except Exception as e:
-        #print(e)
+        print(e)
         print("Say that again please...")
         return "None"    
     return query
 
 if __name__ == "__main__":
     wishMe()
-    while True:
-       query = takeVoiceInput().lower()
+    #while True:
+    query = takeVoiceInput().lower()
     #query = 'open vscode'
-    
 #Logic for executing tasks based on query:
     if 'wikipedia' in query:
         query = query.replace("wikipedia","")
@@ -87,6 +86,7 @@ if __name__ == "__main__":
         #strfTime = datetime.datetime.now().strftime("%H:%M:%S")  
         minu = strftime("%M")
         sec  = strftime("%S")
+        print(f"Sir, the time is {hr} hour:{minu} minutes:{sec} seconds")
         speak(f"Sir, the time is {hr} hour, {minu} minutes and {sec} seconds")
 
     elif 'open vscode' in query:
